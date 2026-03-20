@@ -241,17 +241,18 @@ export const Visualizer: React.FC<VisualizerProps> = ({ subscriptions, onDelete 
           
           if (distSq < forceRadius * forceRadius) {
             const distance = Math.sqrt(distSq);
-            const forceMagnitude = (1 - distance / forceRadius) * 0.002 * body.mass;
+            // Decoupled from mass to make heavier (more expensive) bubbles harder to move
+            const forceMagnitude = (1 - distance / forceRadius) * 0.05; 
             Matter.Body.applyForce(body, body.position, {
               x: (dx / distance) * forceMagnitude,
               y: (dy / distance) * forceMagnitude
             });
           }
 
-          // Subtle floating force (random drift)
+          // Subtle floating force (random drift, slightly scaled by mass for variety)
           Matter.Body.applyForce(body, body.position, {
-            x: Math.sin(Date.now() * 0.001 + (body.id as any)) * 0.00015 * body.mass,
-            y: Math.cos(Date.now() * 0.0012 + (body.id as any)) * 0.00015 * body.mass
+            x: Math.sin(Date.now() * 0.001 + (body.id as any)) * 0.0002 * body.mass,
+            y: Math.cos(Date.now() * 0.0012 + (body.id as any)) * 0.0002 * body.mass
           });
         });
       }
@@ -538,6 +539,9 @@ export const Visualizer: React.FC<VisualizerProps> = ({ subscriptions, onDelete 
       
       renderRef.current.canvas.width = newWidth;
       renderRef.current.canvas.height = newHeight;
+      renderRef.current.options.width = newWidth;
+      renderRef.current.options.height = newHeight;
+      
       Matter.Body.setPosition(ground, { x: newWidth / 2, y: newHeight + thickness / 2 });
       Matter.Body.setPosition(rightWall, { x: newWidth + thickness / 2, y: newHeight / 2 });
       Matter.Body.setPosition(ceiling, { x: newWidth / 2, y: -thickness / 2 });
@@ -590,6 +594,7 @@ export const Visualizer: React.FC<VisualizerProps> = ({ subscriptions, onDelete 
           friction: 0,      // No friction
           frictionAir: 0.005, // Very slight air resistance to prevent infinite speed
           label: sub.id,
+          mass: 1 + (sub.price / 2000), // Custom mass based on price
           render: {
             fillStyle: sub.color,
             strokeStyle: 'rgba(255,255,255,0.2)',

@@ -1,58 +1,51 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import { Header } from '@/components/Header';
-import { Visualizer } from '@/components/Visualizer';
-import { AddSubscriptionForm } from '@/components/AddSubscriptionForm';
-import { useLocalStorage } from '@/hooks/useLocalStorage';
-import { Subscription } from '@/types/subscription';
+import React, { useState, useEffect } from "react";
+import { Header } from "@/components/Header";
+import { Visualizer } from "@/components/Visualizer";
+import { AddSubscriptionForm } from "@/components/AddSubscriptionForm";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { Subscription } from "@/types/subscription";
 
 export default function Home() {
-  const [subscriptions, setSubscriptions] = useLocalStorage<Subscription[]>('subscriptions', []);
-  const [isClient, setIsClient] = useState(false);
+    const [subscriptions, setSubscriptions] = useLocalStorage<Subscription[]>(
+        "subscriptions",
+        [],
+    );
+    const [isClient, setIsClient] = useState(false);
 
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
 
-  const totalBurn = subscriptions.reduce((sum, sub) => sum + sub.price, 0);
+    const totalBurn = subscriptions.reduce((sum, sub) => sum + sub.price, 0);
 
-  const handleAddSubscription = (newSub: Omit<Subscription, 'id'>) => {
-    const subWithId: Subscription = {
-        ...newSub,
-        id: crypto.randomUUID(),
+    const handleAddSubscription = (newSub: Omit<Subscription, "id">) => {
+        const subWithId: Subscription = {
+            ...newSub,
+            id: crypto.randomUUID(),
+        };
+        setSubscriptions([...subscriptions, subWithId]);
     };
-    setSubscriptions([...subscriptions, subWithId]);
-  };
 
-  const handleDeleteSubscription = (id: string) => {
-    setSubscriptions(subscriptions.filter((sub) => sub.id !== id));
-  };
+    const handleDeleteSubscription = (id: string) => {
+        setSubscriptions(subscriptions.filter((sub) => sub.id !== id));
+    };
 
-  if (!isClient) {
-    return <div className="min-h-screen bg-black" />; // Hydration guard
-  }
+    if (!isClient) {
+        return <div className="min-h-screen bg-black" />; // Hydration guard
+    }
 
-  return (
-    <main className="relative min-h-screen bg-black overflow-hidden selection:bg-indigo-500/30">
-      <Header totalBurn={totalBurn} />
-      
-      <Visualizer 
-        subscriptions={subscriptions} 
-        onDelete={handleDeleteSubscription} 
-      />
+    return (
+        <main className="relative min-h-screen bg-black overflow-hidden selection:bg-indigo-500/30">
+            <Header totalBurn={totalBurn} />
 
-      <AddSubscriptionForm onAdd={handleAddSubscription} />
-      
-      {/* Footer Info */}
-      <div className="fixed bottom-8 left-8 z-30 pointer-events-none hidden md:block">
-        <p className="text-zinc-500 text-xs font-medium uppercase tracking-widest">
-            Visualizer Playground v1.0
-        </p>
-        <p className="text-zinc-600 text-[10px] mt-1">
-            Data persists in your local browser
-        </p>
-      </div>
-    </main>
-  );
+            <Visualizer
+                subscriptions={subscriptions}
+                onDelete={handleDeleteSubscription}
+            />
+
+            <AddSubscriptionForm onAdd={handleAddSubscription} />
+        </main>
+    );
 }

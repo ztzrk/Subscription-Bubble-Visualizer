@@ -5,8 +5,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "SubViz | Subscription Bubble Visualizer",
-  description: "An interactive 2D physics playground to visualize your monthly subscription burn.",
+  title: "Messy | Visualize the Beautiful Mess",
+  description: "An interactive zero-gravity physics playground to visualize the beautiful mess of your monthly subscription burn.",
 };
 
 export default function RootLayout({

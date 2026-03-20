@@ -2,6 +2,8 @@
 
 ## Visualize the Beautiful Mess of Your Subscriptions
 
+[**Live Demo**](https://subscription-bubble-visualizer.vercel.app/)
+
 Messy is an interactive 2D physics playground built to help users "feel" their monthly subscription burn. Instead of rigid spreadsheets, Messy transforms your financial data into a dynamic, zero-gravity environment where every subscription is a physical object with its own weight, momentum, and impact.
 
 ![Messy Visualization](public/screenshot.png)

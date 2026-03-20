@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🫧 Messy
 
-## Getting Started
+**Visualize the Beautiful Mess of Your Subscriptions**
 
-First, run the development server:
+Messy is an interactive 2D physics playground built to help users "feel" their monthly subscription burn. Instead of rigid spreadsheets, Messy transforms your financial data into a dynamic, zero-gravity environment where every subscription is a physical object with its own weight, momentum, and impact.
+
+![Messy Visualization](public/logo-preview.png) *(Note: Add your own screenshot here)*
+
+## ✨ Key Features
+
+- **Zero-Gravity Physics**: Subscriptions float freely in a frictionless environment, creating a "smooth as glass" interactive experience.
+- **Financial Weight (Mass Logic)**: Higher-priced subscriptions have greater physical mass. They are harder to push, slower to accelerate, and carry more momentum—simulating the true "weight" of your expenses.
+- **High-Impact Visuals**: 
+  - **Streak Sparks**: High-velocity collisions generate tapered sparks with "hot cores" that fade over time.
+  - **Grid Warping**: The background grid dynamically warps around your cursor and active bubbles.
+  - **Reactive UI**: Modern, glassmorphic header and forms using Framer Motion.
+- **Interactive Management**: Click a bubble to select it, see its details, or "pop" it to immediately reduce your monthly burn.
+
+## 🛠️ Tech Stack
+
+- **Framework**: [Next.js 15+](https://nextjs.org/) (App Router)
+- **Physics Engine**: [Matter.js](https://brm.io/matter-js/)
+- **Animations**: [Framer Motion](https://www.framer.com/motion/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **Icons**: [Lucide React](https://lucide.dev/)
+
+## 🚀 Getting Started
+
+First, clone the repository and install dependencies:
+
+```bash
+npm install
+# or
+yarn install
+```
+
+Then, run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🧠 Physics Implementation Details
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Mass-Price Mapping
+We use a custom mapping function to translate subscription price into Matter.js mass:
+`mass = 1 + (price / 2000)`
+This ensures that a Rp 200.000 subscription feels significantly heavier and more "stubborn" than a Rp 20.000 one.
 
-## Learn More
+### Drag & Friction
+To achieve the "glass-like" feel, the engine is configured with:
+- `engine.gravity.y = 0`
+- `body.friction = 0`
+- `body.frictionAir = 0.005` (Slight air resistance to prevent infinite speed)
+- `body.restitution = 0.9` (High bounciness)
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Developed with ❤️ to make personal finance a bit more "messy" and a lot more fun.
